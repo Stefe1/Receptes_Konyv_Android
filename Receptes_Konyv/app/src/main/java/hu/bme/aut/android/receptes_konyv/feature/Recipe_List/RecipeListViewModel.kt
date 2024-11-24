@@ -34,7 +34,7 @@ class RecipeListViewModel @Inject constructor(private val useCases: RecipeUseCas
             try {
                 CoroutineScope(coroutineContext).launch(Dispatchers.IO){
                     val todos=useCases.loadRecipesUseCase().getOrThrow().map { /* ToDo*/ }
-                    _state.update { it.copy(isLoading = true) }
+                    _state.update { it.copy(isLoading = false) }
                 }
             }
             catch (e:Exception){
