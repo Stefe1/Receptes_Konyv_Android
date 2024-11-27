@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Receptes_Konyv</string>
+    <string name="Ures_lista">Még üres a receptes könyv</string>
 </resources>

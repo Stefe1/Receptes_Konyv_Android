@@ -3,6 +3,7 @@ package hu.bme.aut.android.receptes_konyv.domain.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import hu.bme.aut.android.receptes_konyv.data.datasource.RecipeRepository
 import hu.bme.aut.android.receptes_konyv.domain.usecases.DeleteAllRecipesUseCase
 import hu.bme.aut.android.receptes_konyv.domain.usecases.DeleteRecipeUseCase
@@ -14,7 +15,7 @@ import hu.bme.aut.android.receptes_konyv.domain.usecases.UpdateRecipeUseCase
 import javax.inject.Singleton
 
 @Module
-@InstallIn(Singleton::class)
+@InstallIn(SingletonComponent::class)
 object RecipeUseCasesModule {
 
     @Provides

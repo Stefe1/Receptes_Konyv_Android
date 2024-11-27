@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import hu.bme.aut.android.receptes_konyv.data.entities.RecipeEntity
 import hu.bme.aut.android.receptes_konyv.domain.model.Recipe
 import hu.bme.aut.android.receptes_konyv.domain.usecases.RecipeUseCases
+import hu.bme.aut.android.receptes_konyv.ui.model.RecipeUI
+import hu.bme.aut.android.receptes_konyv.ui.model.asRecipeUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,7 @@ data class RecipeListState(
     val isLoading:Boolean =false,
     val error: Throwable?=null,
     val isError: Boolean= error!=null,
-    val recipes: List<Recipe> = emptyList()
+    val recipes: List<RecipeUI> = emptyList()
 )
 
 
@@ -27,14 +29,17 @@ data class RecipeListState(
 class RecipeListViewModel @Inject constructor(private val useCases: RecipeUseCases) :ViewModel(){
     private val _state= MutableStateFlow(RecipeListState())
     val state=_state.asStateFlow()
+    init {
+        loadRecipes()
+    }
 
     fun loadRecipes(){
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             try {
                 CoroutineScope(coroutineContext).launch(Dispatchers.IO){
-                    val todos=useCases.loadRecipesUseCase().getOrThrow().map { /* ToDo*/ }
-                    _state.update { it.copy(isLoading = false) }
+                    val recipes=useCases.loadRecipesUseCase().getOrThrow().map { it.asRecipeUI() }
+                    _state.update { it.copy(isLoading = false, recipes = recipes) }
                 }
             }
             catch (e:Exception){

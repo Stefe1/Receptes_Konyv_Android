@@ -6,6 +6,7 @@ data class Recipe(
     val id: Int,
     val title:String,
     val description: String,
+    val ingredients: String,
     val type: RecipeType
     )
 
@@ -13,6 +14,7 @@ fun RecipeEntity.asRecipe(): Recipe =Recipe(
     id=id,
     title=title,
     description=description,
+    ingredients = ingredients,
     type=type
     )
 
@@ -20,5 +22,6 @@ fun Recipe.asRecipeEntity(): RecipeEntity =RecipeEntity(
     id=id,
     title=title,
     description=description,
+    ingredients=ingredients,
     type=type
 )

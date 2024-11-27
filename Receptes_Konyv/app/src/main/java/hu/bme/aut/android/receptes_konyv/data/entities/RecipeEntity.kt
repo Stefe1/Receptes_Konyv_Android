@@ -9,5 +9,6 @@ data class RecipeEntity (
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title:String,
     val description: String,
+    val ingredients:String,
     val type: RecipeType
 )
