@@ -11,6 +11,7 @@ navigationCompose = "2.8.3"
 room = "2.6.1"
 hilt = "2.51.1"
 hilt-navigation-compose = "1.2.0"
+uiTooling = "1.7.5"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose" }
@@ -35,6 +36,7 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hil
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose"}
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 hilt-android-compiler = {module="com.google.dagger:hilt-android-compiler",version.ref="hilt"}
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

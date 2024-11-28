@@ -82,6 +82,7 @@ dependencies {
 
     // Room
     implementation(libs.androidx.room.runtime)
+    debugImplementation(libs.ui.tooling)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 

@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.SoupKitchen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import hu.bme.aut.android.receptes_konyv.domain.model.RecipeType
+import hu.bme.aut.android.receptes_konyv.ui.theme.LightBrown
 
 sealed class TypeUI(
     val title: String,
@@ -20,7 +21,7 @@ sealed class TypeUI(
         )
     object Foetel: TypeUI(
         title = "Foetel",
-        color = Color.Red,
+        color = Color(LightBrown.value),
         icon = Icons.Default.LunchDining
     )
     object Leves: TypeUI(
