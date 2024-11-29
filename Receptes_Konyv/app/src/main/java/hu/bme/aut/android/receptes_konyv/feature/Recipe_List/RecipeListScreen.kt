@@ -73,7 +73,7 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
                 .background(Color.Gray)
                 .padding(innerPadding)){
 
-                LazyColumn(modifier = Modifier.padding(top = 5.dp)) {
+                LazyColumn(modifier = Modifier.padding(top = 5.dp, start = 5.dp, end = 5.dp)) {
 
                     items(list){recipe->
                         ListItem(
