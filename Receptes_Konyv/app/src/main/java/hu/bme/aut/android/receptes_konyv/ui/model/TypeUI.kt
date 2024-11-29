@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Icecream
 import androidx.compose.material.icons.filled.LunchDining
 import androidx.compose.material.icons.filled.NotInterested
+import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.SoupKitchen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -15,12 +16,12 @@ sealed class TypeUI(
     val color: Color,
     val icon:ImageVector
 ){
-    object None: TypeUI(title = "None",
+    object Egyeb: TypeUI(title = "Egyéb",
         color = Color.Gray,
-        icon = Icons.Default.NotInterested
+        icon = Icons.Default.Restaurant
         )
     object Foetel: TypeUI(
-        title = "Foetel",
+        title = "Főétel",
         color = Color(LightBrown.value),
         icon = Icons.Default.LunchDining
     )
@@ -37,7 +38,7 @@ sealed class TypeUI(
 }
 fun TypeUI.asRecipeType(): RecipeType{
     return when(this){
-        is TypeUI.None-> RecipeType.None
+        is TypeUI.Egyeb-> RecipeType.Egyeb
         is TypeUI.Foetel-> RecipeType.Foetel
         is TypeUI.Leves-> RecipeType.Leves
         is TypeUI.Desszert-> RecipeType.Desszert
@@ -48,7 +49,7 @@ fun TypeUI.asRecipeType(): RecipeType{
 
 fun RecipeType.asTypeUI(): TypeUI{
     return when(this){
-        RecipeType.None -> TypeUI.None
+        RecipeType.Egyeb -> TypeUI.Egyeb
         RecipeType.Foetel->TypeUI.Foetel
         RecipeType.Leves->TypeUI.Leves
         RecipeType.Desszert->TypeUI.Desszert
