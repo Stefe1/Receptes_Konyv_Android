@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import hu.bme.aut.android.receptes_konyv.feature.Create_Recipe.CreateRecipeScreen
 import hu.bme.aut.android.receptes_konyv.feature.Recipe_List.RecipeListScreen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -20,7 +21,7 @@ fun NavGraph( navController: NavHostController = rememberNavController(),){
             /*ToDo*/
         }
         composable(Screen.Create.route){
-
+            CreateRecipeScreen(onNavigationBack = { navController.navigate(Screen.Recipes.route) })
         }
     }
 }
