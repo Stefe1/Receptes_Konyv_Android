@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -86,7 +87,8 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
                                     Icon(
                                         imageVector = recipe.type.icon,
                                         contentDescription = "",
-                                        tint = recipe.type.color
+                                        tint = recipe.type.color,
+                                        modifier = Modifier.size(25.dp)
                                     )
                                     Text(text = recipe.title)
                                 }
@@ -97,7 +99,8 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
                             supportingContent = {
                                 Row (modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                                     Text(
-                                        text = "Létre hozva: ${LocalDate.now()}"
+                                        text = "Létre hozva: ${LocalDate.now()}",
+                                        fontSize = 16.sp
                                     )
                                 }
                             },
