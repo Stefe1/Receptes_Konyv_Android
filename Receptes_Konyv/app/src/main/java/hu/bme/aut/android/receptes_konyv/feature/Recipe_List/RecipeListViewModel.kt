@@ -48,4 +48,19 @@ class RecipeListViewModel @Inject constructor(private val useCases: RecipeUseCas
         }
     }
 
+    fun deleteAllRecipes(){
+        viewModelScope.launch {
+            try{
+                CoroutineScope(coroutineContext).launch(Dispatchers.IO){
+                    useCases.deleteAllRecipesUseCase()
+                    _state.update { it.copy(recipes = emptyList()) }
+                }
+            }
+            catch (e:Error){
+
+            }
+
+        }
+    }
+
 }

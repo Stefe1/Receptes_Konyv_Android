@@ -17,10 +17,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.SentimentVeryDissatisfied
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
@@ -62,7 +64,15 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
         Icon(Icons.Default.Add, contentDescription = "")
     }
     },
-        topBar = { TopAppBar( colors = TopAppBarColors(containerColor = Color(DarkBlue.value), actionIconContentColor = Color.White, navigationIconContentColor = Color.White, scrolledContainerColor = Color.White, titleContentColor = Color.White),title = { Text(text = "ReceptesKönyv") }) }
+        topBar = { TopAppBar( colors = TopAppBarColors(containerColor = Color(DarkBlue.value), actionIconContentColor = Color.White, navigationIconContentColor = Color.White, scrolledContainerColor = Color.White, titleContentColor = Color.White),
+            title = { Text(text = "ReceptesKönyv") },
+            actions = {
+                IconButton(onClick = {viewModel.deleteAllRecipes()}) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "")
+                }
+            }
+
+        ) }
         ) { innerPadding->
         if(state.recipes.isEmpty()){
             EmptyList(modifier = Modifier.padding(innerPadding))
