@@ -1,5 +1,6 @@
 package hu.bme.aut.android.receptes_konyv.ui.common
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -27,29 +30,40 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import hu.bme.aut.android.receptes_konyv.ui.model.TypeUI
+import kotlin.math.log
 
 @Composable
 fun TypeDropDown(types:List<TypeUI>,selected:TypeUI,modifier: Modifier=Modifier, onTypeSelected: (TypeUI)->Unit){
     var expanded by remember { mutableStateOf(false) }
 
     Surface (modifier= Modifier
-        .clickable { expanded = true }
-        .width(TextFieldDefaults.MinWidth)
-        .height(TextFieldDefaults.MinHeight)) {
-        if(!expanded){
-            Row(modifier=Modifier.padding(10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = selected.icon, contentDescription ="", tint = selected.color )
-                Text(text = selected.title)
-                Spacer(modifier = Modifier.width(120.dp))
-                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "")
+        .width(TextFieldDefaults.MinWidth)) {
+        Row(modifier= Modifier
+            .padding(10.dp)
+            .clickable { expanded = true }, horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(imageVector = selected.icon, contentDescription ="", tint = selected.color )
+            Text(text = selected.title)
+            Spacer(modifier = Modifier.width(120.dp))
+            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "")
+
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded=false }, modifier = Modifier
+                .width(TextFieldDefaults.MinWidth)) {
+                types.forEach { type->
+                    Log.v("a","1")
+                    DropdownMenuItem(text = { Text(text = type.title) },
+                        onClick = { expanded=false
+                            onTypeSelected(type)
+                        }, leadingIcon = { Icon(imageVector = type.icon, contentDescription = "", tint = type.color)})
+
+                }
             }
-        }
-        else{
 
         }
+
     }
-
 }
+
+
 
 @Preview
 @Composable
