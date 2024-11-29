@@ -9,7 +9,7 @@ data class RecipeUI(
     val title: String ="",
     val description: String="",
     val ingredients: String="",
-    val type: TypeUI=TypeUI.None
+    val type: TypeUI=TypeUI.Egyeb
 
 )
 

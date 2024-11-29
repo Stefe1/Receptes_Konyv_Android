@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Receptes_Konyv</string>
     <string name="Ures_lista">Még üres a receptes könyv</string>
+    <string name="Cim">Cím</string>
+    <string name="Leiras">Leírás</string>
+    <string name="Hozzavalok">Hozzávalók</string>
+
 </resources>
