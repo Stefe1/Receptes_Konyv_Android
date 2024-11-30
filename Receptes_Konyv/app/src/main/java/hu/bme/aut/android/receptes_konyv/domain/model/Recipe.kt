@@ -9,7 +9,8 @@ data class Recipe(
     val description: String,
     val ingredients: String,
     val type: RecipeType,
-    val date: LocalDate
+    val date: LocalDate,
+    val edited: Boolean
     )
 
 fun RecipeEntity.asRecipe(): Recipe =Recipe(
@@ -18,7 +19,8 @@ fun RecipeEntity.asRecipe(): Recipe =Recipe(
     description=description,
     ingredients = ingredients,
     type=type,
-    date=date
+    date=date,
+    edited=edited
     )
 
 fun Recipe.asRecipeEntity(): RecipeEntity =RecipeEntity(
@@ -27,5 +29,6 @@ fun Recipe.asRecipeEntity(): RecipeEntity =RecipeEntity(
     description=description,
     ingredients=ingredients,
     type=type,
-    date=date
+    date=date,
+    edited=edited
 )

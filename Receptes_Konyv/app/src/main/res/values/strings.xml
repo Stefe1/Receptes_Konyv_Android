@@ -7,4 +7,6 @@
     <string name="error_message">Hiba</string>
     <string name="Top_App_Bar_Cim">Receptes Könyv</string>
     <string name="Szerkesztes">Recept szerkesztése</string>
+    <string name="Letrehozva">Létrehozva: %1$s</string>
+    <string name="Modositott">Módosítva: %1$s</string>
 </resources>

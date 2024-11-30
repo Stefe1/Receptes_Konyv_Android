@@ -17,7 +17,8 @@ data class RecipeUI(
         LocalDateTime.now().year,
         LocalDateTime.now().monthValue,
         LocalDateTime.now().dayOfMonth
-    ).toString()
+    ).toString(),
+    val edited: Boolean=false
 )
 
 fun Recipe.asRecipeUI(): RecipeUI=RecipeUI(
@@ -26,7 +27,8 @@ fun Recipe.asRecipeUI(): RecipeUI=RecipeUI(
     description=description,
     ingredients = ingredients,
     type = type.asTypeUI(),
-    date = date.toString()
+    date = date.toString(),
+    edited=edited
     )
 
 fun RecipeUI.asRecipe():Recipe=Recipe(
@@ -35,5 +37,6 @@ fun RecipeUI.asRecipe():Recipe=Recipe(
     description=description,
     ingredients=ingredients,
     type = type.asRecipeType(),
-    date = date.toLocalDate()
+    date = date.toLocalDate(),
+    edited=edited
     )

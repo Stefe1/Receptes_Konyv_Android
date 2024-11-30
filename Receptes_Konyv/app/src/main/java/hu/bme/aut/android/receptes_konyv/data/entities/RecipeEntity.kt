@@ -12,5 +12,6 @@ data class RecipeEntity (
     val description: String,
     val ingredients:String,
     val type: RecipeType,
-    val date: LocalDate
+    val date: LocalDate,
+    val edited: Boolean
 )

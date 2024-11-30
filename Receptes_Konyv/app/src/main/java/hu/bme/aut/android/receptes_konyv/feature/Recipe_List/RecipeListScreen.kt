@@ -100,10 +100,18 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
                                 .clickable { ItemClicked(state.recipes[state.recipes.indexOf(recipe)].id) },
                             supportingContent = {
                                 Row (modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    Text(
-                                        text = "Létre hozva: ${recipe.date}",
-                                        fontSize = 16.sp
-                                    )
+                                    if(!recipe.edited){
+                                        Text(
+                                            text = stringResource(id = R.string.Letrehozva, "${recipe.date}"),
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                    else{
+                                        Text(
+                                            text = stringResource(id = R.string.Modositott, "${recipe.date}"),
+                                            fontSize = 16.sp
+                                        )
+                                    }
                                 }
                             },
 

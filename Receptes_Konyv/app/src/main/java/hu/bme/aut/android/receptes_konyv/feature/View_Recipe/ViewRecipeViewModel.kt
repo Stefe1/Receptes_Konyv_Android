@@ -108,6 +108,7 @@ class ViewRecipeViewModel @Inject constructor(private val savedState: SavedState
 
     private fun UpdateRecipe(){
         viewModelScope.launch (Dispatchers.IO){
+            _state.update { it.copy(recipe = it.recipe?.copy(edited = true)) }
             try {
                 useCases.updateRecipeUseCase(
                     _state.value.recipe?.asRecipe()!!
