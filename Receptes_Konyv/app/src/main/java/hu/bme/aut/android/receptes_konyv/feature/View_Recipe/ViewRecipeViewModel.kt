@@ -74,11 +74,11 @@ class ViewRecipeViewModel @Inject constructor(private val savedState: SavedState
             }
             is ViewRecipeEvent.changeDescriptionEvent->{
                 val newDescription=event.newDescription
-                _state.update { it.copy(recipe = it.recipe?.copy(title = newDescription)) }
+                _state.update { it.copy(recipe = it.recipe?.copy(description = newDescription)) }
             }
             is ViewRecipeEvent.changeIngredientsEvent->{
                 val newIngredients=event.newIngredients
-                _state.update { it.copy(recipe = it.recipe?.copy(title = newIngredients)) }
+                _state.update { it.copy(recipe = it.recipe?.copy(ingredients = newIngredients)) }
             }
             ViewRecipeEvent.updateRecipe->{
                 UpdateRecipe()
