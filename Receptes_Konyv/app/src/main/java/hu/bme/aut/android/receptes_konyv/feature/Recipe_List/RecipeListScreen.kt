@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,21 +20,16 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.SentimentVeryDissatisfied
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,9 +40,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import hu.bme.aut.android.receptes_konyv.R
-import hu.bme.aut.android.receptes_konyv.ui.common.RecipeEditor
-import hu.bme.aut.android.receptes_konyv.ui.common.TypeDropDown
-import hu.bme.aut.android.receptes_konyv.ui.model.TypeUI
 import hu.bme.aut.android.receptes_konyv.ui.theme.DarkBlue
 import java.time.LocalDate
 
@@ -65,7 +57,7 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
     }
     },
         topBar = { TopAppBar( colors = TopAppBarColors(containerColor = Color(DarkBlue.value), actionIconContentColor = Color.White, navigationIconContentColor = Color.White, scrolledContainerColor = Color.White, titleContentColor = Color.White),
-            title = { Text(text = "ReceptesKönyv") },
+            title = { Text(text = stringResource(id = R.string.Top_App_Bar_Cim)) },
             actions = {
                 IconButton(onClick = {viewModel.deleteAllRecipes()}) {
                     Icon(imageVector = Icons.Default.Delete, contentDescription = "")
