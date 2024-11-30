@@ -101,7 +101,7 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
                             supportingContent = {
                                 Row (modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                                     Text(
-                                        text = "Létre hozva: ${LocalDate.now()}",
+                                        text = "Létre hozva: ${recipe.date}",
                                         fontSize = 16.sp
                                     )
                                 }
