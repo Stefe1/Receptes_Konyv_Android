@@ -97,7 +97,7 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
                             },
                             modifier = Modifier
                                 .clip(shape)
-                                .clickable { ItemClicked(list.indexOf(recipe)) },
+                                .clickable { ItemClicked(state.recipes[state.recipes.indexOf(recipe)].id) },
                             supportingContent = {
                                 Row (modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
                                     Text(

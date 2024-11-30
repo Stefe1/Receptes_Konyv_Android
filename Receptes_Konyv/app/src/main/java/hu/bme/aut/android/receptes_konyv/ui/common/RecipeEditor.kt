@@ -32,6 +32,7 @@ fun RecipeEditor(titleValue: String,
                  descriptionValue:String,
                  ingredientsValue:String,
                  typeUI: TypeUI,
+                 enabled:Boolean=true,
                  onTitleChange:(String)->Unit,
                  onDescriptionChange:(String)->Unit,
                  onIngredientsChange:(String)->Unit,
@@ -42,16 +43,19 @@ fun RecipeEditor(titleValue: String,
         .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround
         ) {
-            NormalTextField(value = titleValue, label = stringResource(R.string.Cim), onValueChange = onTitleChange, modifier = Modifier.fillMaxWidth(0.95f).padding(top = 10.dp)) {}
-            Spacer(modifier = Modifier.height(15.dp))
-            TypeDropDown(selected = typeUI, modifier = Modifier.fillMaxWidth(0.95f), onTypeSelected = onTypeChange)
+            Spacer(modifier = Modifier.height(10.dp))
+            if(enabled){
+                NormalTextField(value = titleValue, label = stringResource(R.string.Cim), onValueChange = onTitleChange, modifier = Modifier.fillMaxWidth(0.95f), enabled = enabled) {}
+                Spacer(modifier = Modifier.height(15.dp))
+            }
+            TypeDropDown(enabled = enabled,selected = typeUI, modifier = Modifier.fillMaxWidth(0.95f), onTypeSelected = onTypeChange)
             Spacer(modifier = Modifier.height(15.dp))
             NormalTextField(value = ingredientsValue, label = stringResource(id = R.string.Hozzavalok), onValueChange = onIngredientsChange, singleLine = false, modifier = Modifier
                 .fillMaxWidth(0.95f)
-                .fillMaxHeight(0.2f)) {}
+                .fillMaxHeight(0.2f),enabled = enabled) {}
 
             Spacer(modifier = Modifier.height(15.dp))
-            NormalTextField(value = descriptionValue, label = stringResource(id = R.string.Leiras), onValueChange = onDescriptionChange, singleLine = false,modifier = Modifier.fillMaxHeight().fillMaxWidth(0.95f).padding(bottom = 10.dp)) {}
+            NormalTextField(value = descriptionValue, label = stringResource(id = R.string.Leiras), onValueChange = onDescriptionChange, singleLine = false,modifier = Modifier.fillMaxHeight().fillMaxWidth(0.95f).padding(bottom = 10.dp),enabled = enabled) {}
 
 
 
@@ -61,7 +65,7 @@ fun RecipeEditor(titleValue: String,
 @Composable
 fun RecipeEditorPreview(){
     Box(modifier = Modifier.fillMaxSize()){
-        RecipeEditor("","","",TypeUI.Egyeb,{},{},{},{})
+        RecipeEditor("","","",TypeUI.Egyeb,true,{},{},{},{})
     }
 
 }
