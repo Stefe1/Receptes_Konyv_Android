@@ -1,5 +1,6 @@
 package hu.bme.aut.android.receptes_konyv.ui.common
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,8 +49,12 @@ fun NormalTextField(value:String,
             onDone = onDone
         ),
         colors = TextFieldDefaults.colors(
-            unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
-            unfocusedContainerColor = MaterialTheme.colorScheme.background
+            unfocusedTextColor = MaterialTheme.colorScheme.onSecondary,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+            focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+            focusedContainerColor =MaterialTheme.colorScheme.secondary,
+
+
         ),
         shape=shape
     )
