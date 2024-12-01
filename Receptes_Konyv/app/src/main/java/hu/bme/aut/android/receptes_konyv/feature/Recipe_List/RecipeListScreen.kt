@@ -16,12 +16,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Abc
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.SentimentVeryDissatisfied
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +42,9 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,6 +58,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import hu.bme.aut.android.receptes_konyv.R
 import hu.bme.aut.android.receptes_konyv.data.datastore.Settings
 import hu.bme.aut.android.receptes_konyv.ui.animation.LoadingCirlce
+import hu.bme.aut.android.receptes_konyv.ui.model.RecipeUI
+import hu.bme.aut.android.receptes_konyv.ui.model.asRecipe
 import hu.bme.aut.android.receptes_konyv.ui.model.toUiText
 import hu.bme.aut.android.receptes_konyv.ui.theme.DarkBlue
 import kotlinx.coroutines.CoroutineScope
@@ -63,12 +75,15 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
     val list = state.recipes
     val shape= RoundedCornerShape(5.dp)
 
+    var expanded by remember { mutableStateOf(false) }
+
     val context = LocalContext.current
 
     val settings= Settings(context)
 
     val theme= settings.getAppTheme.collectAsState(initial = "light")
 
+    val sorting= settings.getSorting.collectAsState(initial = "none")
 
 
     Scaffold (floatingActionButton = { LargeFloatingActionButton(onClick =  CreateClicked, containerColor = MaterialTheme.colorScheme.primary,) {
@@ -78,6 +93,59 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
         topBar = { TopAppBar( colors = TopAppBarColors(containerColor = MaterialTheme.colorScheme.primary, actionIconContentColor = MaterialTheme.colorScheme.onPrimary, navigationIconContentColor = MaterialTheme.colorScheme.onPrimary, scrolledContainerColor = MaterialTheme.colorScheme.primary, titleContentColor = MaterialTheme.colorScheme.onPrimary),
             title = { Text(text = stringResource(id = R.string.Top_App_Bar_Cim)) },
             actions = {
+
+                IconButton(onClick = {expanded=true}){
+                    Icon(imageVector = Icons.Default.Sort,"")
+                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded=false }) {
+                        DropdownMenuItem(text = { Text(text = stringResource(id = R.string.Abc_sorrned), color = MaterialTheme.colorScheme.onSecondary) }, onClick = {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                settings.saveSorting("title")
+                            }
+
+                            expanded=false
+                            },
+                            leadingIcon = { Icon(
+                                imageVector = Icons.Default.Abc,
+                                contentDescription = "")},
+                            trailingIcon = {
+                            if(sorting.value=="title")
+                                Icon(imageVector = Icons.Default.Check, contentDescription = "")
+                        })
+                        DropdownMenuItem(text = { Text(text = stringResource(id = R.string.Ido_sorrend), color = MaterialTheme.colorScheme.onSecondary) },
+                            onClick = {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                settings.saveSorting("date")
+                            }
+
+                            expanded=false
+                        }
+                            , leadingIcon = { Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = ""
+                        )},
+                            trailingIcon = {
+                            if(sorting.value=="date")
+                                Icon(imageVector = Icons.Default.Check, contentDescription = "")
+                        })
+                        DropdownMenuItem(text = { Text(text = stringResource(id = R.string.Nincs_sorrend), color = MaterialTheme.colorScheme.onSecondary) },
+                            onClick = {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    settings.saveSorting("none")
+                                }
+
+                                expanded=false
+                            },
+                            leadingIcon = { Icon(
+                            imageVector = Icons.Default.Block,
+                            contentDescription = ""
+                        )}, trailingIcon = {
+                            if(sorting.value=="none")
+                                Icon(imageVector = Icons.Default.Check, contentDescription = "")
+                        })
+                    }
+                }
+
+
                 IconButton(onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
                         settings.saveTheme(theme.value)
@@ -116,6 +184,11 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
                     EmptyList(modifier = Modifier.padding(innerPadding))
                 }
                 else{
+                    val sortedList: List<RecipeUI> = when(sorting.value){
+                        "title" -> list.sortedBy { it.title.lowercase() }
+                        "date"  -> list.sortedBy { it.date }
+                        else -> list
+                    }
                     Box(modifier = Modifier
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
@@ -126,7 +199,7 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
                             .background(MaterialTheme.colorScheme.background)
                             .fillMaxSize()) {
 
-                            items(list){recipe->
+                            items(sortedList){recipe->
                                 ListItem(
                                     headlineContent =
                                     {
@@ -192,10 +265,3 @@ fun EmptyList(modifier: Modifier){
         Text(text = stringResource(id = R.string.Ures_lista),modifier=Modifier.weight(0.5f), fontSize = 20.sp)
     }
 }
-/*Column (modifier = Modifier
-                            .fillMaxWidth()
-                            .height(TextFieldDefaults.MinHeight)
-                            .clip(shape)
-                            .background(Color.White), verticalArrangement = Arrangement.spacedBy(10.dp)){
-
-                        }*/
