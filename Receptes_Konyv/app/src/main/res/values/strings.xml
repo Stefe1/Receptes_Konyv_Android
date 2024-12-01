@@ -9,4 +9,5 @@
     <string name="Szerkesztes">Recept szerkesztése</string>
     <string name="Letrehozva">Létrehozva: %1$s</string>
     <string name="Modositott">Módosítva: %1$s</string>
+    <string name="Megosztas">Recept címe: %1$s\nRecept típus: %2$s\nHozzávalók: %3$s\nLeírás: %4$s</string>
 </resources>

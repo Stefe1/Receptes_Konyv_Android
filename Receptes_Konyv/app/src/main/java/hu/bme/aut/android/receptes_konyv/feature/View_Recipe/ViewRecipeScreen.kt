@@ -1,5 +1,6 @@
 package hu.bme.aut.android.receptes_konyv.feature.View_Recipe
 
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -80,6 +82,14 @@ fun ViewRecipeScreen(
         }
     }
 
+    val shareText = stringResource(
+        id = R.string.Megosztas,
+        state.recipe?.title.toString(),
+        state.recipe?.type?.title.toString(),
+        state.recipe?.ingredients.toString(),
+        state.recipe?.description.toString()
+    )
+
 
 
 
@@ -99,8 +109,28 @@ fun ViewRecipeScreen(
                     }
                 }
 
+
+
                 IconButton(onClick = {viewModel.onEvent(ViewRecipeEvent.deleteRecipe)}) {
                     Icon(imageVector = Icons.Default.Delete, contentDescription = "")
+                }
+                if(!state.editing){
+                    IconButton(onClick = {
+
+                        val sendIntent: Intent = Intent().apply {//EMAH7U
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, shareText)
+                            /*putExtra(Intent.EXTRA_TEXT, "Recept címe: ${state.recipe?.title}\nRecept típus: ${state.recipe?.type?.title}\nHozzávalók: ${state.recipe?.description}\nLeírás: ${state.recipe?.description}")*/
+                            type = "text/plain"
+                        }
+
+                        val shareIntent = Intent.createChooser(sendIntent, null)
+                        context.startActivity(shareIntent)
+                    
+                    
+                    }) {
+                        Icon(imageVector = Icons.Default.Share, contentDescription = "")
+                    }
                 }
 
             },
