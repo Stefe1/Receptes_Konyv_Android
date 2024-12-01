@@ -16,15 +16,14 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun LoadingCirlce(
-    circleRadius: Float = 40f, // Radius of each circle
-    circleDistance: Float = 120f, // Distance from the center of the circular path
-    animationDuration: Int = 2400, // Duration for a full rotation in ms
+    circleRadius: Float = 40f,
+    circleDistance: Float = 120f,
+    animationDuration: Int = 2400,
     modifier: Modifier = Modifier,
     color: Color
 ) {
     val infiniteTransition = rememberInfiniteTransition()
 
-    // Animate the angle offset for each circle
     val angle1 by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
@@ -32,8 +31,8 @@ fun LoadingCirlce(
             animation = tween(durationMillis = animationDuration, easing = LinearEasing)
         )
     )
-    val angle2 = (angle1 + 120f) % 360f // Offset by 120 degrees
-    val angle3 = (angle1 + 240f) % 360f // Offset by 240 degrees
+    val angle2 = (angle1 + 120f) % 360f
+    val angle3 = (angle1 + 240f) % 360f
 
     Canvas(modifier = modifier.size(100.dp)) {
         val centerX = size.width / 2
@@ -50,8 +49,8 @@ fun LoadingCirlce(
             )
         }
 
-        drawCircleAtAngle(angle1) // Draw first circle
-        drawCircleAtAngle(angle2) // Draw second circle
-        drawCircleAtAngle(angle3) // Draw third circle
+        drawCircleAtAngle(angle1)
+        drawCircleAtAngle(angle2)
+        drawCircleAtAngle(angle3)
     }
 }
