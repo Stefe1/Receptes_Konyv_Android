@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.SentimentVeryDissatisfied
 import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,6 +47,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import hu.bme.aut.android.receptes_konyv.R
 import hu.bme.aut.android.receptes_konyv.data.datastore.Settings
+import hu.bme.aut.android.receptes_konyv.ui.animation.LoadingCirlce
+import hu.bme.aut.android.receptes_konyv.ui.model.toUiText
 import hu.bme.aut.android.receptes_konyv.ui.theme.DarkBlue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -95,63 +98,86 @@ fun RecipeListScreen (ItemClicked:(Int)->Unit,CreateClicked:()->Unit,viewModel: 
 
         ) }
         ) { innerPadding->
-        if(state.recipes.isEmpty()){
-            EmptyList(modifier = Modifier.padding(innerPadding))
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.secondaryContainer
+            )
+        } else if (state.isError) {
+            Text(
+                text = state.error?.toUiText()?.asString(context)
+                    ?: stringResource(id = R.string.error_message)
+            )
         }
-        else{
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(innerPadding)){
 
-                LazyColumn(modifier = Modifier
-                    .padding(top = 5.dp, start = 5.dp, end = 5.dp)
-                    .background(MaterialTheme.colorScheme.background)
-                    .fillMaxSize()) {
 
-                    items(list){recipe->
-                        ListItem(
-                            headlineContent =
-                            {
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                                    modifier = Modifier.padding(start = 10.dp, top = 10.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = recipe.type.icon,
-                                        contentDescription = "",
-                                        tint = recipe.type.color,
-                                        modifier = Modifier.size(25.dp)
-                                    )
-                                    Text(text = recipe.title)
-                                }
-                            },
-                            modifier = Modifier
-                                .clip(shape).background(Color.White)
-                                .clickable { ItemClicked(state.recipes[state.recipes.indexOf(recipe)].id) }.background(Color.Black),
-                            supportingContent = {
-                                Row (modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    if(!recipe.edited){
-                                        Text(
-                                            text = stringResource(id = R.string.Letrehozva, "${recipe.date}"),
-                                            fontSize = 16.sp
-                                        )
-                                    }
-                                    else{
-                                        Text(
-                                            text = stringResource(id = R.string.Modositott, "${recipe.date}"),
-                                            fontSize = 16.sp
-                                        )
-                                    }
-                                }
-                            },
-                        )
-                        Spacer(modifier = Modifier.height(5.dp))
+            else
+            {
+                if(state.recipes.isEmpty()){
+                    EmptyList(modifier = Modifier.padding(innerPadding))
+                }
+                else{
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(innerPadding)){
+
+                        LazyColumn(modifier = Modifier
+                            .padding(top = 5.dp, start = 5.dp, end = 5.dp)
+                            .background(MaterialTheme.colorScheme.background)
+                            .fillMaxSize()) {
+
+                            items(list){recipe->
+                                ListItem(
+                                    headlineContent =
+                                    {
+                                        Row(
+                                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                                            modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Icon(
+                                                imageVector = recipe.type.icon,
+                                                contentDescription = "",
+                                                tint = recipe.type.color,
+                                                modifier = Modifier.size(25.dp)
+                                            )
+                                            Text(text = recipe.title)
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .clip(shape)
+                                        .background(Color.White)
+                                        .clickable {
+                                            ItemClicked(
+                                                state.recipes[state.recipes.indexOf(
+                                                    recipe
+                                                )].id
+                                            )
+                                        }
+                                        .background(Color.Black),
+                                    supportingContent = {
+                                        Row (modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                            if(!recipe.edited){
+                                                Text(
+                                                    text = stringResource(id = R.string.Letrehozva, "${recipe.date}"),
+                                                    fontSize = 16.sp
+                                                )
+                                            }
+                                            else{
+                                                Text(
+                                                    text = stringResource(id = R.string.Modositott, "${recipe.date}"),
+                                                    fontSize = 16.sp
+                                                )
+                                            }
+                                        }
+                                    },
+                                )
+                                Spacer(modifier = Modifier.height(5.dp))
+                            }
+                        }
                     }
                 }
             }
-        }
     }
 }
 @Composable

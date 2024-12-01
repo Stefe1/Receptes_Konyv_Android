@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,6 +47,7 @@ import hu.bme.aut.android.receptes_konyv.R
 import hu.bme.aut.android.receptes_konyv.ui.common.RecipeEditor
 import hu.bme.aut.android.receptes_konyv.ui.common.ShoppingListItem
 import hu.bme.aut.android.receptes_konyv.ui.model.RecipeUI
+import hu.bme.aut.android.receptes_konyv.ui.model.toUiText
 import hu.bme.aut.android.receptes_konyv.ui.theme.DarkBlue
 import hu.bme.aut.android.receptes_konyv.ui.util.UiEvent
 import kotlinx.coroutines.launch
@@ -139,17 +141,36 @@ fun ViewRecipeScreen(
             .fillMaxSize()){
             val recipe= state.recipe?: RecipeUI()
             if(!shoppingList){
-                RecipeEditor(
-                    enabled = state.editing,
-                    titleValue = recipe.title,
-                    descriptionValue = recipe.description,
-                    ingredientsValue = recipe.ingredients,
-                    typeUI = recipe.type,
-                    onTitleChange = {viewModel.onEvent(ViewRecipeEvent.changeTitleEvent(it))},
-                    onDescriptionChange = {viewModel.onEvent(ViewRecipeEvent.changeDescriptionEvent(it))},
-                    onIngredientsChange ={viewModel.onEvent(ViewRecipeEvent.changeIngredientsEvent(it))},
-                    onTypeChange = {viewModel.onEvent(ViewRecipeEvent.changeTypeEvent(it))}
-                )
+                if (state.loading) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                else {
+                    RecipeEditor(
+                        enabled = state.editing,
+                        titleValue = recipe.title,
+                        descriptionValue = recipe.description,
+                        ingredientsValue = recipe.ingredients,
+                        typeUI = recipe.type,
+                        onTitleChange = { viewModel.onEvent(ViewRecipeEvent.changeTitleEvent(it)) },
+                        onDescriptionChange = {
+                            viewModel.onEvent(
+                                ViewRecipeEvent.changeDescriptionEvent(
+                                    it
+                                )
+                            )
+                        },
+                        onIngredientsChange = {
+                            viewModel.onEvent(
+                                ViewRecipeEvent.changeIngredientsEvent(
+                                    it
+                                )
+                            )
+                        },
+                        onTypeChange = { viewModel.onEvent(ViewRecipeEvent.changeTypeEvent(it)) }
+                    )
+                }
             }
             else{
                 val list = recipe.ingredients.split("\n")
